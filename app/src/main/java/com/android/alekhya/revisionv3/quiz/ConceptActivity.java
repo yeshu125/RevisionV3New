@@ -5,52 +5,46 @@ package com.android.alekhya.revisionv3.quiz;
  */
 
 
-        import android.content.Intent;
-        import android.support.v4.app.NavUtils;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.RadioButton;
-        import android.widget.RadioGroup;
-        import android.widget.TextView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.android.alekhya.revisionv3.BaseApplication;
+import com.android.alekhya.revisionv3.R;
+import com.android.alekhya.revisionv3.network.PojoClasses.OptionList;
+import com.android.alekhya.revisionv3.network.PojoClasses.Options;
+import com.android.alekhya.revisionv3.network.PojoClasses.Questn;
+import com.android.alekhya.revisionv3.network.PojoClasses.QuizQuestion;
+import com.android.alekhya.revisionv3.network.RestApi;
 
-        import com.android.alekhya.revisionv3.BaseApplication;
-        import com.android.alekhya.revisionv3.R;
-        import com.android.alekhya.revisionv3.network.PojoClasses.OptionList;
-        import com.android.alekhya.revisionv3.network.PojoClasses.Options;
-        import com.android.alekhya.revisionv3.network.PojoClasses.Questn;
-        import com.android.alekhya.revisionv3.network.PojoClasses.QuizQuestion;
-        import com.android.alekhya.revisionv3.network.RestApi;
+import java.util.ArrayList;
+import java.util.List;
 
-        import java.util.ArrayList;
-        import java.util.Collection;
-        import java.util.List;
-
-        import retrofit2.Call;
-        import retrofit2.Callback;
-        import retrofit2.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConceptActivity extends AppCompatActivity {
 
+    ArrayList<String> myAnsList;
     private List<Questn> questionsList;
     private Questn currentQuestion;
-    private List<Options> currentOption = new ArrayList<Options>();
-
+    private List<Options> currentOptions = new ArrayList<Options>();
+    private Options currentOption = new Options();
     private TextView txtQuestion,tvNoOfQs;
     private RadioButton rbtnA, rbtnB, rbtnC,rbtnD;
     private Button btnNext;
-
     private int obtainedScore=0;
     private int questionId=0;
-
     private int answeredQsNo=0;
-
-    ArrayList<String> myAnsList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,26 +56,13 @@ public class ConceptActivity extends AppCompatActivity {
         init();
 
         //Initialize the database
-        Call<QuizQuestion> Questions = RestApi.get().getRestService().getQuestions("5");
+        Call<QuizQuestion> Questions = RestApi.get().getRestService().getQuestions(BaseApplication.subjectId);
         Questions.enqueue(new Callback<QuizQuestion>() {
             @Override
             public void onResponse(Call<QuizQuestion> call, retrofit2.Response<QuizQuestion> response) {
                 if (true ) {
                     questionsList = response.body().getQuestn();
-                    currentQuestion = questionsList.get(0);
-                /*    rbtnA.setChecked(false);
-                    rbtnB.setChecked(false);
-                    rbtnC.setChecked(false);
-                    rbtnD.setChecked(false);
-
-                    answeredQsNo=questionId+1;
-                    tvNoOfQs.setText("Questions "+answeredQsNo+" of "+questionsList.size()); */
-
-                    txtQuestion.setText(currentQuestion.getQuestion());
-                    rbtnA.setText(currentOption.get(0).getOption1());
-                    rbtnC.setText(currentOption.get(0).getOption2());
-                    rbtnD.setText(currentOption.get(0).getOption3());
-                    rbtnB.setText(currentOption.get(0).getOption4());
+                    currentQuestion = questionsList.get(questionId);
                 }
             }
 
@@ -92,12 +73,14 @@ public class ConceptActivity extends AppCompatActivity {
             }
         });
 
-        Call<OptionList> optionListCall = RestApi.get().getRestService().getOptions("5");
-        //Call<OptionList> optionListCall = RestApi.get().getRestService().getOptions(BaseApplication.subjectId);
+        //Call<OptionList> optionListCall = RestApi.get().getRestService().getOptions("5");
+        Call<OptionList> optionListCall = RestApi.get().getRestService().getOptions(BaseApplication.subjectId);
         optionListCall.enqueue(new Callback<OptionList>() {
             @Override
             public void onResponse(Call<OptionList> call, Response<OptionList> response) {
-                currentOption.addAll(response.body().getOptions());
+                currentOptions.addAll(response.body().getOptions());
+                currentOption = currentOptions.get(questionId);
+                setQuestionsView();
             }
 
             @Override
@@ -106,30 +89,30 @@ public class ConceptActivity extends AppCompatActivity {
             }
         });
         //Set question
-        setQuestionsView();
+
 
         //Check and Next
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioGroup grp=(RadioGroup)findViewById(R.id.radioGroup1);
-                RadioButton answer=(RadioButton)findViewById(grp.getCheckedRadioButtonId());
+                RadioGroup grp = findViewById(R.id.radioGroup1);
+                RadioButton answer = findViewById(grp.getCheckedRadioButtonId());
 
                 Log.e("Answer ID", "Selected Positioned  value - "+grp.getCheckedRadioButtonId());
 
                 if(answer!=null){
-                    Log.e("Answer", currentOption.get(0).getCorrect_answer() + " -- " + answer.getText());
+                    Log.e("Answer", currentOptions.get(0).getCorrect_answer() + " -- " + answer.getText());
                     //Add answer to the list
                     myAnsList.add(""+answer.getText());
 
-                    if(currentOption.get(1).getCorrect_answer().equals(answer.getText())){
+                    if (currentOptions.get(0).getCorrect_answer().equals(answer.getText())) {
                         obtainedScore++;
                         Log.e("comments", "Correct Answer");
                         Log.d("score", "Obtained score " + obtainedScore);
                     }else{
                         Log.e("comments", "Wrong Answer");
                     }
-                    if(true){
+                    if (questionsList.size() > questionId) {
                         currentQuestion=questionsList.get(questionId);
                         setQuestionsView();
                     }else{
@@ -160,14 +143,14 @@ public class ConceptActivity extends AppCompatActivity {
     }
 
     public void init(){
-        tvNoOfQs=(TextView)findViewById(R.id.tvNumberOfQuestions);
-        txtQuestion=(TextView)findViewById(R.id.tvQuestion);
-        rbtnA=(RadioButton)findViewById(R.id.radio0);
-        rbtnB=(RadioButton)findViewById(R.id.radio1);
-        rbtnC=(RadioButton)findViewById(R.id.radio2);
-        rbtnD=(RadioButton)findViewById(R.id.radio3);
+        tvNoOfQs = findViewById(R.id.tvNumberOfQuestions);
+        txtQuestion = findViewById(R.id.tvQuestion);
+        rbtnA = findViewById(R.id.radio0);
+        rbtnB = findViewById(R.id.radio1);
+        rbtnC = findViewById(R.id.radio2);
+        rbtnD = findViewById(R.id.radio3);
 
-        btnNext=(Button)findViewById(R.id.btnNext);
+        btnNext = findViewById(R.id.btnNext);
 
         myAnsList = new ArrayList<String>();
     }
@@ -175,7 +158,7 @@ public class ConceptActivity extends AppCompatActivity {
 
     private void setQuestionsView()
     {
-       /* rbtnA.setChecked(false);
+        rbtnA.setChecked(false);
         rbtnB.setChecked(false);
         rbtnC.setChecked(false);
         rbtnD.setChecked(false);
@@ -184,10 +167,10 @@ public class ConceptActivity extends AppCompatActivity {
         tvNoOfQs.setText("Questions "+answeredQsNo+" of "+questionsList.size());
 
         txtQuestion.setText(currentQuestion.getQuestion());
-        rbtnA.setText(currentOption.get(1).getOption1());
-        rbtnC.setText(currentOption.get(1).getOption2());
-        rbtnD.setText(currentOption.get(1).getOption3());
-        rbtnB.setText(currentOption.get(1).getOption4()); */
+        rbtnA.setText(currentOptions.get(questionId).getOption1());
+        rbtnC.setText(currentOptions.get(questionId).getOption2());
+        rbtnD.setText(currentOptions.get(questionId).getOption3());
+        rbtnB.setText(currentOptions.get(questionId).getOption4());
 
         questionId++;
     }
