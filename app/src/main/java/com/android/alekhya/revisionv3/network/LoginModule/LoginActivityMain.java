@@ -15,7 +15,7 @@ public class LoginActivityMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainactivity1);
+        setContentView(R.layout.loginmainactivity);
         fragmentManager = getSupportFragmentManager();
 
         // If savedinstnacestate is null then replace login fragment

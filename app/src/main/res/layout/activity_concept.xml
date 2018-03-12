@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvNumberOfQuestions"
-            android:text="ICT questions"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -27,7 +26,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvQuestion"
             android:layout_below="@+id/tvNumberOfQuestions"
-            android:text="ICT questions"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:textStyle="normal"
@@ -44,22 +42,22 @@
                 android:id="@+id/radio0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                 />
             <RadioButton
                 android:id="@+id/radio1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                 />
             <RadioButton
                 android:id="@+id/radio2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                 />
             <RadioButton
                 android:id="@+id/radio3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                 />
         </RadioGroup>
 
     </RelativeLayout>

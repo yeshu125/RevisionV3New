@@ -38,7 +38,7 @@ public class ConceptActivity extends AppCompatActivity {
 
     private List<Questn> questionsList;
     private Questn currentQuestion;
-    private List<Options> currentOption;
+    private List<Options> currentOption = new ArrayList<Options>();
 
     private TextView txtQuestion,tvNoOfQs;
     private RadioButton rbtnA, rbtnB, rbtnC,rbtnD;
@@ -67,7 +67,21 @@ public class ConceptActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<QuizQuestion> call, retrofit2.Response<QuizQuestion> response) {
                 if (true ) {
-                    currentQuestion = response.body().getQuestn().get(0);
+                    questionsList = response.body().getQuestn();
+                    currentQuestion = questionsList.get(0);
+                /*    rbtnA.setChecked(false);
+                    rbtnB.setChecked(false);
+                    rbtnC.setChecked(false);
+                    rbtnD.setChecked(false);
+
+                    answeredQsNo=questionId+1;
+                    tvNoOfQs.setText("Questions "+answeredQsNo+" of "+questionsList.size()); */
+
+                    txtQuestion.setText(currentQuestion.getQuestion());
+                    rbtnA.setText(currentOption.get(0).getOption1());
+                    rbtnC.setText(currentOption.get(0).getOption2());
+                    rbtnD.setText(currentOption.get(0).getOption3());
+                    rbtnB.setText(currentOption.get(0).getOption4());
                 }
             }
 
@@ -104,7 +118,7 @@ public class ConceptActivity extends AppCompatActivity {
                 Log.e("Answer ID", "Selected Positioned  value - "+grp.getCheckedRadioButtonId());
 
                 if(answer!=null){
-                    Log.e("Answer", currentOption.get(1).getCorrect_answer() + " -- " + answer.getText());
+                    Log.e("Answer", currentOption.get(0).getCorrect_answer() + " -- " + answer.getText());
                     //Add answer to the list
                     myAnsList.add(""+answer.getText());
 
@@ -161,7 +175,7 @@ public class ConceptActivity extends AppCompatActivity {
 
     private void setQuestionsView()
     {
-        rbtnA.setChecked(false);
+       /* rbtnA.setChecked(false);
         rbtnB.setChecked(false);
         rbtnC.setChecked(false);
         rbtnD.setChecked(false);
@@ -173,7 +187,7 @@ public class ConceptActivity extends AppCompatActivity {
         rbtnA.setText(currentOption.get(1).getOption1());
         rbtnC.setText(currentOption.get(1).getOption2());
         rbtnD.setText(currentOption.get(1).getOption3());
-        rbtnB.setText(currentOption.get(1).getOption4());
+        rbtnB.setText(currentOption.get(1).getOption4()); */
 
         questionId++;
     }
