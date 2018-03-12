@@ -138,7 +138,7 @@ public class RestApi {
         Call<QuizQuestion> getQuestions(@Field("sub_id") String sub);
 
         @FormUrlEncoded
-        @POST("OptionRetrival.php")
+        @POST("OptionsRetrival.php")
         Call<OptionList> getOptions(@Field("sub_id") String sub);
 
 

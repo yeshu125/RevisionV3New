@@ -11,8 +11,8 @@ import com.android.alekhya.revisionv3.network.RestApi;
 public class BaseApplication extends Application {
 
     public static String subjectId;
-    public static String ipAddress="http://192.168.100.3:8080/Revision/";
-  //  public static String ipAddress="http://192.168.3.73:8080/Revision/";
+  //  public static String ipAddress="http://192.168.100.3:8080/Revision/";
+    public static String ipAddress="http://192.168.3.73:8080/Revision/";
     public static String url;
     public static String filename;
     @Override

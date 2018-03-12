@@ -23,6 +23,7 @@ package com.android.alekhya.revisionv3.quiz;
         import com.android.alekhya.revisionv3.network.PojoClasses.OptionList;
         import com.android.alekhya.revisionv3.network.PojoClasses.Options;
         import com.android.alekhya.revisionv3.network.PojoClasses.Questn;
+        import com.android.alekhya.revisionv3.network.PojoClasses.QuizQuestion;
         import com.android.alekhya.revisionv3.network.RestApi;
 
         import java.util.ArrayList;
@@ -61,8 +62,22 @@ public class ConceptActivity extends AppCompatActivity {
         init();
 
         //Initialize the database
-        final DBAdapter dbAdapter=new DBAdapter();
-        currentQuestion=dbAdapter.getAllQuestions().get(1);
+        Call<QuizQuestion> Questions = RestApi.get().getRestService().getQuestions("5");
+        Questions.enqueue(new Callback<QuizQuestion>() {
+            @Override
+            public void onResponse(Call<QuizQuestion> call, retrofit2.Response<QuizQuestion> response) {
+                if (true ) {
+                    currentQuestion = response.body().getQuestn().get(0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuizQuestion> call, Throwable t) {
+
+                Log.e("exception",""+t.toString());
+            }
+        });
+
         Call<OptionList> optionListCall = RestApi.get().getRestService().getOptions("5");
         //Call<OptionList> optionListCall = RestApi.get().getRestService().getOptions(BaseApplication.subjectId);
         optionListCall.enqueue(new Callback<OptionList>() {
@@ -100,7 +115,7 @@ public class ConceptActivity extends AppCompatActivity {
                     }else{
                         Log.e("comments", "Wrong Answer");
                     }
-                    if(questionId<dbAdapter.rowCount()){
+                    if(true){
                         currentQuestion=questionsList.get(questionId);
                         setQuestionsView();
                     }else{
