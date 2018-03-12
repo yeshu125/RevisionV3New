@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+
+
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/Widget.AppCompat.Light.ActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/Widget.AppCompat.Light.ActionBar</item>
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay">AppTheme</style>
+
+    <style name="AppTheme.PopupOverlay">PopOverlay</style>
+
+</resources>
