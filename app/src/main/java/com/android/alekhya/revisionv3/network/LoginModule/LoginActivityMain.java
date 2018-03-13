@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.android.alekhya.revisionv3.R;
 
@@ -27,15 +25,15 @@ public class LoginActivityMain extends AppCompatActivity {
         }
 
         // On close icon click finish activity
-        findViewById(R.id.close_activity).setOnClickListener(
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-                        finish();
-
-                    }
-                });
+//        findViewById(R.id.close_activity).setOnClickListener(
+//                new OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(View arg0) {
+//                        finish();
+//
+//                    }
+//                });
 
     }
 

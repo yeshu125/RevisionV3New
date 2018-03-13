@@ -5,10 +5,10 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="Quiz Home" />
     </group>
 
-    <item android:title="Concept of ICT">
+    <item android:title="Revision">
         <menu>
             <item
                 android:id="@+id/nav_quizone"

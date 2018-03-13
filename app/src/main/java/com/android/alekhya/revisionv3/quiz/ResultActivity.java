@@ -3,20 +3,19 @@ package com.android.alekhya.revisionv3.quiz;
 /**
  * Created by Alekhya on 07-03-2018.
 */
-        import android.content.Intent;
-        import android.support.v4.app.NavUtils;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.RatingBar;
-        import android.widget.TextView;
 
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
-        import com.android.alekhya.revisionv3.R;
+import com.android.alekhya.revisionv3.R;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -29,13 +28,13 @@ public class ResultActivity extends AppCompatActivity {
 
 
         //get rating bar object
-        RatingBar bar=(RatingBar)findViewById(R.id.ratingBar1);
+        RatingBar bar = findViewById(R.id.ratingBar1);
         bar.setNumStars(5);
         bar.setStepSize(0.5f);
 
         //get text view
-        TextView tvAnsweredInfo =(TextView)findViewById(R.id.tvAnsweredInfo);
-        TextView t=(TextView)findViewById(R.id.textResult);
+        TextView tvAnsweredInfo = findViewById(R.id.tvAnsweredInfo);
+        TextView t = findViewById(R.id.textResult);
 
         //get score
         Bundle b = getIntent().getExtras();
@@ -65,7 +64,7 @@ public class ResultActivity extends AppCompatActivity {
         }
 
 
-        Button btnDone=(Button)findViewById(R.id.btnDone);
+        Button btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +72,7 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-        Button btnViewAnswer=(Button)findViewById(R.id.btnViewAnswer);
+       /* Button btnViewAnswer=(Button)findViewById(R.id.btnViewAnswer);
         btnViewAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +81,7 @@ public class ResultActivity extends AppCompatActivity {
                 startActivity(vIntent);
 
             }
-        });
+        });*/
 
 
     }

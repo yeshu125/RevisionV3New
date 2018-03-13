@@ -9,10 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="#183ac2"
         android:text="REVISION"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:background="#183ac2"/>
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnImages"
@@ -21,7 +21,7 @@
         android:layout_below="@+id/header"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
-        android:text="videos" />
+        android:text="Images" />
 
     <Button
         android:id="@+id/btnVideos"
@@ -30,7 +30,7 @@
         android:layout_alignLeft="@+id/btnImages"
         android:layout_alignStart="@+id/btnImages"
         android:layout_centerVertical="true"
-        android:text="images" />
+        android:text="Videos" />
 
     <Button
         android:id="@+id/btnQuiz"
@@ -45,10 +45,10 @@
         android:id="@+id/footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="All CopyRights Reserved"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_alignParentBottom="true"
         />
 </RelativeLayout>

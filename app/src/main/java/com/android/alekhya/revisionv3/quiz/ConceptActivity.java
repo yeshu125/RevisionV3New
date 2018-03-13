@@ -35,6 +35,7 @@ import retrofit2.Response;
 public class ConceptActivity extends AppCompatActivity {
 
     ArrayList<String> myAnsList;
+    Boolean validate = false;
     private List<Questn> questionsList;
     private Questn currentQuestion;
     private List<Options> currentOptions = new ArrayList<Options>();
@@ -60,9 +61,10 @@ public class ConceptActivity extends AppCompatActivity {
         Questions.enqueue(new Callback<QuizQuestion>() {
             @Override
             public void onResponse(Call<QuizQuestion> call, retrofit2.Response<QuizQuestion> response) {
-                if (true ) {
+                if (response.body().getQuestn().size() > 0) {
                     questionsList = response.body().getQuestn();
                     currentQuestion = questionsList.get(questionId);
+                    validate = true;
                 }
             }
 
@@ -101,17 +103,19 @@ public class ConceptActivity extends AppCompatActivity {
                 Log.e("Answer ID", "Selected Positioned  value - "+grp.getCheckedRadioButtonId());
 
                 if(answer!=null){
-                    Log.e("Answer", currentOptions.get(0).getCorrect_answer() + " -- " + answer.getText());
+                    Log.e("Answer", currentOptions.get(questionId).getCorrect_answer() + " -- " + answer.getText());
                     //Add answer to the list
+
                     myAnsList.add(""+answer.getText());
 
-                    if (currentOptions.get(0).getCorrect_answer().equals(answer.getText())) {
+                    if (currentOptions.get(questionId).getCorrect_answer().equals(answer.getText())) {
                         obtainedScore++;
                         Log.e("comments", "Correct Answer");
                         Log.d("score", "Obtained score " + obtainedScore);
                     }else{
-                        Log.e("comments", "Wrong Answer");
+                        Log.e("comments", "Wrong Answer=" + currentOptions.get(questionId).getCorrect_answer() + "questionId" + questionId);
                     }
+                    questionId++;
                     if (questionsList.size() > questionId) {
                         currentQuestion=questionsList.get(questionId);
                         setQuestionsView();
@@ -127,6 +131,7 @@ public class ConceptActivity extends AppCompatActivity {
                         finish();
 
                     }
+
 
                 }else{
                     Log.e("comments", "No Answer");
@@ -164,15 +169,17 @@ public class ConceptActivity extends AppCompatActivity {
         rbtnD.setChecked(false);
 
         answeredQsNo=questionId+1;
-        tvNoOfQs.setText("Questions "+answeredQsNo+" of "+questionsList.size());
+        if (validate) {
+            tvNoOfQs.setText("Questions " + answeredQsNo + " of " + questionsList.size());
 
-        txtQuestion.setText(currentQuestion.getQuestion());
-        rbtnA.setText(currentOptions.get(questionId).getOption1());
-        rbtnC.setText(currentOptions.get(questionId).getOption2());
-        rbtnD.setText(currentOptions.get(questionId).getOption3());
-        rbtnB.setText(currentOptions.get(questionId).getOption4());
+            txtQuestion.setText(currentQuestion.getQuestion());
+            rbtnA.setText(currentOptions.get(questionId).getOption1());
+            rbtnC.setText(currentOptions.get(questionId).getOption2());
+            rbtnD.setText(currentOptions.get(questionId).getOption3());
+            rbtnB.setText(currentOptions.get(questionId).getOption4());
 
-        questionId++;
+            //  questionId++;
+        }
     }
 
 

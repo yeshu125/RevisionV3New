@@ -26,14 +26,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DisplayPDF extends Activity implements OnPageChangeListener,OnLoadCompleteListener{
-    private static final String TAG = DisplayPDF.class.getSimpleName();
     public static final String SAMPLE_FILE = "v.mp4";
+    private static final String TAG = DisplayPDF.class.getSimpleName();
+    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+    private static final String PACKAGE_NAME = "com.android.chrome";
     //  PDFView pdfView;
     Integer pageNumber = 0;
     String pdfFileName;
-
-    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
-    private static final String PACKAGE_NAME = "com.android.chrome";
     private CustomTabsClient mClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +89,7 @@ public class DisplayPDF extends Activity implements OnPageChangeListener,OnLoadC
         }
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
         customTabsIntent.intent.setData(uri);
-        // customTabsIntent.intent;
         customTabsIntent.intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, getResources().getColor(R.color.colorPrimaryDark));
-        // customTabsIntent.intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, getResources().getColor(R.color.colorPrimaryDark));
-
 
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(customTabsIntent.intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -108,27 +104,7 @@ public class DisplayPDF extends Activity implements OnPageChangeListener,OnLoadC
     }
     private void displayFromAsset(String assetFileName) {
         pdfFileName = assetFileName;
-
-      /*  pdfView.fromAsset(SAMPLE_FILE)
-                .defaultPage(pageNumber)
-                .enableSwipe(true)
-
-                .swipeHorizontal(false)
-                .onPageChange(this)
-                .enableAnnotationRendering(true)
-                .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .load(); */
-      /*  pdfView.fromUri(Uri.parse("http://192.168.2.3:80/demo/Revision/PdfUploadFolder/"+pdfFileName))
-                .defaultPage(pageNumber)
-                .enableSwipe(true)
-                .swipeHorizontal(false)
-                .onPageChange(this)
-                .enableAnnotationRendering(true)
-                .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .load();
-  */  }
+    }
 
 
     @Override
@@ -140,8 +116,6 @@ public class DisplayPDF extends Activity implements OnPageChangeListener,OnLoadC
 
     @Override
     public void loadComplete(int nbPages) {
-        //   PdfDocument.Meta meta = pdfView.getDocumentMeta();
-        //  printBookmarksTree(pdfView.getTableOfContents(), "-");
 
     }
 

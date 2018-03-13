@@ -1,42 +1,37 @@
 package com.android.alekhya.revisionv3;
 
-        import android.app.Activity;
-        import android.content.ComponentName;
-        import android.content.pm.PackageManager;
-        import android.content.pm.ResolveInfo;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.support.customtabs.CustomTabsClient;
-        import android.support.customtabs.CustomTabsIntent;
-        import android.support.customtabs.CustomTabsServiceConnection;
-        import android.text.TextUtils;
-        import android.util.Log;
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.text.TextUtils;
+import android.util.Log;
 
-        import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-        import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
-        import com.shockwave.pdfium.PdfDocument;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.shockwave.pdfium.PdfDocument;
 
-        import java.util.List;
+import java.util.List;
 
 public class Videos extends Activity implements OnPageChangeListener,OnLoadCompleteListener {
-        private static final String TAG = Videos.class.getSimpleName();
         public static final String SAMPLE_FILE = "v.mp4";
+    private static final String TAG = Videos.class.getSimpleName();
+    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+    private static final String PACKAGE_NAME = "com.android.chrome";
         //  PDFView pdfView;
         Integer pageNumber = 0;
         String pdfFileName;
-
-        private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
-        private static final String PACKAGE_NAME = "com.android.chrome";
         private CustomTabsClient mClient;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.displaypdf);
-
-
-            //   pdfView= (PDFView)findViewById(R.id.pdfView);
             displayFromAsset(SAMPLE_FILE);
-
             warmUpChrome();
             launchUrl();
         }
@@ -59,7 +54,7 @@ public class Videos extends Activity implements OnPageChangeListener,OnLoadCompl
 
         private void launchUrl() {
 
-            Uri uri =   Uri.parse(BaseApplication.ipAddress+BaseApplication.url+"/"+BaseApplication.filename); // getIntent().getData();
+            Uri uri = Uri.parse(BaseApplication.ipAddress + BaseApplication.url + "/" + BaseApplication.filename);
             Log.e("URI",uri.toString());
             if (uri == null) {
                 return;
