@@ -4,7 +4,7 @@ package com.android.alekhya.revisionv3.network.PojoClasses;
  * Created by Alekhya on 04-03-2018.
  */
 
-public class MVedio {
+public class Mvideos {
     private String vedios_name;
 
     private String filename;
@@ -47,5 +47,6 @@ public class MVedio {
         return "ClassPojo [vedios_name = "+vedios_name+", filename = "+filename+", vedios_id = "+vedios_id+"]";
     }
 }
+
 
 

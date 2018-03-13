@@ -11,7 +11,7 @@ public class Vediopojo {
 
     private String status;
 
-    private List<MVedio> vedios;
+    private List<Mvideos> mvideos;
 
     public String getMessage ()
     {
@@ -33,19 +33,19 @@ public class Vediopojo {
         this.status = status;
     }
 
-    public List<MVedio> getVedios ()
+    public List<Mvideos> getMvideos()
     {
-        return vedios;
+        return mvideos;
     }
 
-    public void setVedios (List<MVedio> vedios)
+    public void setMvideos(List<Mvideos> mvideos)
     {
-        this.vedios = vedios;
+        this.mvideos = mvideos;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [message = "+message+", status = "+status+", vedios = "+vedios+"]";
+        return "ClassPojo [message = " + message + ", status = " + status + ", mvideos = " + mvideos + "]";
     }
 }

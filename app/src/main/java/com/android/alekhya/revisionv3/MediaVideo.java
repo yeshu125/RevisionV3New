@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.alekhya.revisionv3.network.Adapters.VedioAdapter;
-import com.android.alekhya.revisionv3.network.PojoClasses.MVedio;
+import com.android.alekhya.revisionv3.network.PojoClasses.Mvideos;
 import com.android.alekhya.revisionv3.network.PojoClasses.Vediopojo;
 import com.android.alekhya.revisionv3.network.RestApi;
 
@@ -22,7 +22,7 @@ import retrofit2.Callback;
 
 public class MediaVideo extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private ArrayList<MVedio> data;
+    private ArrayList<Mvideos> data;
     private VedioAdapter adapter;
 
     @Override
@@ -47,7 +47,7 @@ public class MediaVideo extends AppCompatActivity {
             @Override
             public void onResponse(Call<Vediopojo> call, retrofit2.Response<Vediopojo> response) {
                 Vediopojo jsonResponse = response.body();
-                data =(ArrayList<MVedio>) jsonResponse.getVedios();
+                data = (ArrayList<Mvideos>) jsonResponse.getMvideos();
                 adapter = new VedioAdapter(data);
                 recyclerView.setAdapter(adapter);
             }
