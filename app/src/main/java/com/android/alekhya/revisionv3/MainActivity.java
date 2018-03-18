@@ -1,6 +1,7 @@
 package com.android.alekhya.revisionv3;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PQustn.class);
                 startActivity(intent);
-
             }
 
         });
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
         Button Media = findViewById(R.id.button4);
         Media.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -39,6 +38,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent2);
             }
 
+        });
+        Button btnLogout = findViewById(R.id.btnlogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                SharedPreferences mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.remove("UserName");
+                editor.remove("PassWord");
+                editor.commit();
+
+                finish();
+            }
         });
 
     }

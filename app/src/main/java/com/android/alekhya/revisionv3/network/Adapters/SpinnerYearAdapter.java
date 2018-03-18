@@ -7,12 +7,10 @@ import com.android.alekhya.revisionv3.R;
 import com.android.alekhya.revisionv3.network.PojoClasses.Year;
 import com.android.alekhya.revisionv3.network.SpinnerItemHolder;
 
-
 public class SpinnerYearAdapter extends AbstractBaseAdapter<Year, SpinnerItemHolder> {
 
     public SpinnerYearAdapter(Context context) {
         super(context);
-
     }
 
     @Override

@@ -10,18 +10,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="#183ac2"
         android:text="REVISION"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:background="#183ac2"/>
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnlogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/header"
+        android:background="@drawable/shutdown"
+        android:ellipsize="none"
+        android:onClick="logout"
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="220dp"
         android:layout_height="100dp"
         android:layout_below="@+id/header"
-        android:layout_marginTop="37dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
         android:background="@drawable/circle"
         android:text="PQustnpapers"
         />
@@ -29,9 +41,9 @@
         android:id="@+id/button3"
         android:layout_width="220dp"
         android:layout_height="100dp"
-        android:layout_marginTop="40dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
         android:background="@drawable/circle"
         android:text="Materials"
          />
@@ -39,11 +51,11 @@
         android:id="@+id/button4"
         android:layout_width="220dp"
         android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
         android:layout_alignLeft="@+id/button3"
         android:layout_alignStart="@+id/button3"
         android:layout_below="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
         android:background="@drawable/circle"
         android:text="Media"
          />
@@ -51,10 +63,10 @@
         android:id="@+id/footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="All CopyRights Reserved"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_alignParentBottom="true"
         />
 </RelativeLayout>

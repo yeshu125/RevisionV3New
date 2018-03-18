@@ -12,7 +12,7 @@ public class SpinnerItemHolder extends AbstractViewHolder {
 
     public SpinnerItemHolder(View v) {
         super(v);
-        txtItem = (TextView) v.findViewById(R.id.txtSpinner);
+        txtItem = v.findViewById(R.id.txtSpinner);
     }
 
     public TextView getCountryName() {

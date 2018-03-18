@@ -24,7 +24,6 @@ public class MediaVideo extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Mvideos> data;
     private VedioAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +38,7 @@ public class MediaVideo extends AppCompatActivity {
         loadJSON();
     }
     private void loadJSON(){
-
-
         Call<Vediopojo> call = RestApi.get().getRestService().getVediopojo(BaseApplication.subjectId);
-
         call.enqueue(new Callback<Vediopojo>() {
             @Override
             public void onResponse(Call<Vediopojo> call, retrofit2.Response<Vediopojo> response) {
@@ -51,12 +47,10 @@ public class MediaVideo extends AppCompatActivity {
                 adapter = new VedioAdapter(data);
                 recyclerView.setAdapter(adapter);
             }
-
             @Override
             public void onFailure(Call<Vediopojo> call, Throwable t) {
                 Log.d("Error",t.getMessage());
             }
         });
-
     }
 }

@@ -6,11 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-
 import com.android.alekhya.revisionv3.BaseApplication;
 import com.android.alekhya.revisionv3.R;
-import com.android.alekhya.revisionv3.network.RestApi;
 import com.android.alekhya.revisionv3.network.Adapters.UnitAdapter;
+import com.android.alekhya.revisionv3.network.RestApi;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -32,7 +32,7 @@ public class TextBook extends AppCompatActivity{
         initViews();
     }
     private void initViews(){
-        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
+        recyclerView = findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);

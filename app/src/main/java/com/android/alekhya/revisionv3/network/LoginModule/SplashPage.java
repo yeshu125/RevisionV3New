@@ -25,13 +25,11 @@ public class SplashPage extends ActivityMain {
             public void run(){
                 int x = 100;
                 try{
-
-                    while (x<4000)
+                    while (x < 4000)
                     {
                         sleep(200);
                         x = x+500;
                     }
-
                 }
                 catch(InterruptedException e){}
                 finally {

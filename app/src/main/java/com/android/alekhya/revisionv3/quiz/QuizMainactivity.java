@@ -19,7 +19,6 @@ import android.widget.Button;
 
 import com.android.alekhya.revisionv3.R;
 
-
 public class QuizMainactivity extends AppCompatActivity
             implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,23 +28,18 @@ public class QuizMainactivity extends AppCompatActivity
             setContentView(R.layout.quizactivity_main);
             Toolbar toolbar = findViewById(R.id.toolbar);
             //setSupportActionBar(toolbar);
-
-
             Button btnStart = findViewById(R.id.btnStart);
             btnStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent conceptIntent=new Intent(QuizMainactivity.this,ConceptActivity.class);
                     startActivity(conceptIntent);
-
                 }
             });
-
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.setDrawerListener(toggle);
             toggle.syncState();
-
             NavigationView navigationView = findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
         }
@@ -67,7 +61,6 @@ public class QuizMainactivity extends AppCompatActivity
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
-
             return true;
         }
 
@@ -76,20 +69,14 @@ public class QuizMainactivity extends AppCompatActivity
         public boolean onNavigationItemSelected(MenuItem item) {
             // Handle navigation view item clicks here.
             int id = item.getItemId();
-
             if (id == R.id.nav_home) {
-                // Handle the camera action
             } else if (id == R.id.nav_quizone) {
                 Intent conceptIntent=new Intent(QuizMainactivity.this,ConceptActivity.class);
                 startActivity(conceptIntent);
             } else if (id == R.id.nav_quiztwo) {
-
             }else if (id == R.id.nav_quizthree) {
-
             }else if (id == R.id.nav_quizfour) {
-
             }
-
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;

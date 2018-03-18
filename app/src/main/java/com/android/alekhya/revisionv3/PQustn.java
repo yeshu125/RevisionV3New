@@ -32,17 +32,14 @@ public class PQustn extends AppCompatActivity{
         initViews();
     }
     private void initViews(){
-        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
+        recyclerView = findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         loadJSON();
     }
     private void loadJSON(){
-
-
         Call<PQustnpapers> call = RestApi.get().getRestService().getPQustnpapers(BaseApplication.subjectId);
-
         call.enqueue(new Callback<PQustnpapers>() {
             @Override
             public void onResponse(Call<PQustnpapers> call, retrofit2.Response<PQustnpapers> response) {
@@ -51,7 +48,6 @@ public class PQustn extends AppCompatActivity{
                 adapter = new PQustnpaperAdapter(data);
                 recyclerView.setAdapter(adapter);
             }
-
             @Override
             public void onFailure(Call<PQustnpapers> call, Throwable t) {
                 Log.d("Error",t.getMessage());

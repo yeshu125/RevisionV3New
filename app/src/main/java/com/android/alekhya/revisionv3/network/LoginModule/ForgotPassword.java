@@ -4,35 +4,37 @@ package com.android.alekhya.revisionv3.network.LoginModule;
  * Created by Alekhya on 25-02-2018.
  */
 
-
-import java.util.regex.Matcher;
-        import java.util.regex.Pattern;
-
-
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
-        import android.content.res.XmlResourceParser;
-        import android.os.Bundle;
-        import android.support.v4.app.Fragment;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.View.OnClickListener;
-        import android.view.ViewGroup;
+import android.content.res.XmlResourceParser;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.alekhya.revisionv3.R;
+import com.android.alekhya.revisionv3.network.PojoClasses.Users;
+import com.android.alekhya.revisionv3.network.RestApi;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ForgotPassword extends Fragment implements
         OnClickListener {
     private static View view;
-
     private static EditText emailId;
     private static TextView submit, back;
 
     public ForgotPassword() {
-
     }
 
     @Override
@@ -44,28 +46,19 @@ public class ForgotPassword extends Fragment implements
         setListeners();
         return view;
     }
-
-    // Initialize the views
     private void initViews() {
-        emailId = (EditText) view.findViewById(R.id.registered_emailid);
-        submit = (TextView) view.findViewById(R.id.forgot_button);
-        back = (TextView) view.findViewById(R.id.backToLoginBtn);
-
-        // Setting text selector over textviews
+        emailId = view.findViewById(R.id.registered_emailid);
+        submit = view.findViewById(R.id.forgot_button);
+        back = view.findViewById(R.id.backToLoginBtn);
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
-
             back.setTextColor(csl);
             submit.setTextColor(csl);
-
         } catch (Exception e) {
         }
-
     }
-
-    // Set Listeners over buttons
     private void setListeners() {
         back.setOnClickListener(this);
         submit.setOnClickListener(this);
@@ -75,45 +68,45 @@ public class ForgotPassword extends Fragment implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.backToLoginBtn:
-
-                // Replace Login Fragment on Back Presses
                 new LoginActivityMain().replaceLoginFragment();
                 break;
-
             case R.id.forgot_button:
-
-                // Call Submit button task
                 submitButtonTask();
                 break;
-
         }
-
     }
-
     private void submitButtonTask() {
         String getEmailId = emailId.getText().toString();
-
-        // Pattern for email id validation
         Pattern p = Pattern.compile(Utils.regEx);
-
-        // Match the pattern
         Matcher m = p.matcher(getEmailId);
-
-        // First check if email id is not null else show error toast
         if (getEmailId.equals("") || getEmailId.length() == 0)
-
             new CustomToast().Show_Toast(getActivity(), view,
                     "Please enter your Email Id.");
-
-            // Check if email id is valid or not
         else if (!m.find())
             new CustomToast().Show_Toast(getActivity(), view,
                     "Your Email Id is Invalid.");
+        else {
+            Call<Users> res = RestApi.get().getRestService().ForgetPassword(getEmailId);
+            res.enqueue(new Callback<Users>() {
+                @Override
+                public void onResponse(Call<Users> call, retrofit2.Response<Users> response) {
+                    int i = response.body().getStatus();
+                    if (i == 1) {
+                        new LoginActivityMain().replaceResetFragment();
+                    } else {
+                        Toast.makeText(getActivity(), "Your Email Id is not registered in our system.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            // Else submit email id and fetch passwod or do your stuff
-        else
+                @Override
+                public void onFailure(Call<Users> call, Throwable t) {
+                    Log.e("Insert Sem failed", t.toString());
+                }
 
-            Toast.makeText(getActivity(), "Get Forgot Password.",
-                    Toast.LENGTH_SHORT).show();
+            });
+
+
+        }
     }
 }

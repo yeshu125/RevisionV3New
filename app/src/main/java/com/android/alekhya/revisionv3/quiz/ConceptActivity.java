@@ -4,10 +4,12 @@ package com.android.alekhya.revisionv3.quiz;
  * Created by Alekhya on 07-03-2018.
  */
 
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,7 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConceptActivity extends AppCompatActivity {
+public class ConceptActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<String> myAnsList;
     Boolean validate = false;
@@ -51,12 +54,8 @@ public class ConceptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_concept);
-
-
         //Initialize the view
         init();
-
-        //Initialize the database
         Call<QuizQuestion> Questions = RestApi.get().getRestService().getQuestions(BaseApplication.subjectId);
         Questions.enqueue(new Callback<QuizQuestion>() {
             @Override
@@ -67,10 +66,8 @@ public class ConceptActivity extends AppCompatActivity {
                     validate = true;
                 }
             }
-
             @Override
             public void onFailure(Call<QuizQuestion> call, Throwable t) {
-
                 Log.e("exception",""+t.toString());
             }
         });
@@ -84,36 +81,21 @@ public class ConceptActivity extends AppCompatActivity {
                 currentOption = currentOptions.get(questionId);
                 setQuestionsView();
             }
-
             @Override
             public void onFailure(Call<OptionList> call, Throwable t) {
-
             }
         });
-        //Set question
-
-
-        //Check and Next
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RadioGroup grp = findViewById(R.id.radioGroup1);
                 RadioButton answer = findViewById(grp.getCheckedRadioButtonId());
-
                 Log.e("Answer ID", "Selected Positioned  value - "+grp.getCheckedRadioButtonId());
-
                 if(answer!=null){
                     Log.e("Answer", currentOptions.get(questionId).getCorrect_answer() + " -- " + answer.getText());
-                    //Add answer to the list
-
                     myAnsList.add(""+answer.getText());
-
                     if (currentOptions.get(questionId).getCorrect_answer().equals(answer.getText())) {
                         obtainedScore++;
-                        Log.e("comments", "Correct Answer");
-                        Log.d("score", "Obtained score " + obtainedScore);
-                    }else{
-                        Log.e("comments", "Wrong Answer=" + currentOptions.get(questionId).getCorrect_answer() + "questionId" + questionId);
                     }
                     questionId++;
                     if (questionsList.size() > questionId) {
@@ -121,7 +103,6 @@ public class ConceptActivity extends AppCompatActivity {
                         setQuestionsView();
                     }else{
                         Intent intent = new Intent(ConceptActivity.this, ResultActivity.class);
-
                         Bundle b = new Bundle();
                         b.putInt("score", obtainedScore);
                         b.putInt("totalQs", questionsList.size());
@@ -129,22 +110,14 @@ public class ConceptActivity extends AppCompatActivity {
                         intent.putExtras(b);
                         startActivity(intent);
                         finish();
-
                     }
-
-
                 }else{
                     Log.e("comments", "No Answer");
                 }
-
                 //Need to clear the checked item id
                 grp.clearCheck();
-
-
             }//end onClick Method
         });
-
-
     }
 
     public void init(){
@@ -154,43 +127,54 @@ public class ConceptActivity extends AppCompatActivity {
         rbtnB = findViewById(R.id.radio1);
         rbtnC = findViewById(R.id.radio2);
         rbtnD = findViewById(R.id.radio3);
-
         btnNext = findViewById(R.id.btnNext);
-
         myAnsList = new ArrayList<String>();
     }
-
-
     private void setQuestionsView()
     {
         rbtnA.setChecked(false);
         rbtnB.setChecked(false);
         rbtnC.setChecked(false);
         rbtnD.setChecked(false);
-
         answeredQsNo=questionId+1;
         if (validate) {
             tvNoOfQs.setText("Questions " + answeredQsNo + " of " + questionsList.size());
-
             txtQuestion.setText(currentQuestion.getQuestion());
             rbtnA.setText(currentOptions.get(questionId).getOption1());
             rbtnC.setText(currentOptions.get(questionId).getOption2());
             rbtnD.setText(currentOptions.get(questionId).getOption3());
             rbtnB.setText(currentOptions.get(questionId).getOption4());
-
-            //  questionId++;
         }
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        if (id == R.id.nav_home) {
+            // Handle the camera action
+        } else if (id == R.id.nav_quizone) {
+            Intent conceptIntent = new Intent(ConceptActivity.this, ConceptActivity.class);
+            startActivity(conceptIntent);
+        } else if (id == R.id.nav_quiztwo) {
+
+        } else if (id == R.id.nav_quizthree) {
+
+        } else if (id == R.id.nav_quizfour) {
+
+        }
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

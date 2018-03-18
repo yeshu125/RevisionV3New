@@ -4,18 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.android.alekhya.revisionv3.BaseApplication;
+import com.android.alekhya.revisionv3.network.PojoClasses.Courses;
 import com.android.alekhya.revisionv3.network.PojoClasses.Imagepojo;
 import com.android.alekhya.revisionv3.network.PojoClasses.OptionList;
 import com.android.alekhya.revisionv3.network.PojoClasses.PQustnpapers;
 import com.android.alekhya.revisionv3.network.PojoClasses.QuizQuestion;
-import com.android.alekhya.revisionv3.network.PojoClasses.Textbookpojo;
-import com.android.alekhya.revisionv3.network.PojoClasses.User;
-import com.android.alekhya.revisionv3.network.PojoClasses.Users;
-import com.android.alekhya.revisionv3.network.PojoClasses.Vediopojo;
-import com.android.alekhya.revisionv3.network.PojoClasses.Courses;
 import com.android.alekhya.revisionv3.network.PojoClasses.Regulations;
 import com.android.alekhya.revisionv3.network.PojoClasses.Sems;
 import com.android.alekhya.revisionv3.network.PojoClasses.Subjects;
+import com.android.alekhya.revisionv3.network.PojoClasses.Textbookpojo;
+import com.android.alekhya.revisionv3.network.PojoClasses.Users;
+import com.android.alekhya.revisionv3.network.PojoClasses.Vediopojo;
 import com.android.alekhya.revisionv3.network.PojoClasses.Years;
 
 import java.io.IOException;
@@ -25,7 +24,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -35,14 +33,11 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
-
 public class RestApi {
     // public static String BASE_URL = "http://192.168.2.3:8080/demo/";//Connections.BASE_URL;
     public static String BASE_URL = BaseApplication.ipAddress;//Connections.BASE_URL;
     private static SharedPreferences sp;
-
     private static RestApi instance = null;
-
 
     public static synchronized RestApi get() {
         if (instance == null) {
@@ -50,26 +45,15 @@ public class RestApi {
         }
         return instance;
     }
-
     public static void init(Context context) {
         sp = context.getSharedPreferences("GSS", Context.MODE_PRIVATE);
     }
-
     public RestService getRestService() {
         if (sp == null) {
             throw new IllegalStateException("init method should be called first.");
         }
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         return buildAdapter(BASE_URL, RestService.class, builder);
-    }
-
-    private String getApiToken() {
-        //TODO: Need to confirm on Basic or Bearer ?
-        final String credentials = "Basic " + sp.getString("apiToken", "");
-        //Log.e("apiToken",credentials);
-        //final String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-        //return base64EncodedCredentials;
-        return credentials;
     }
 
     private <T> T buildAdapter(String baseUrl, Class<T> clazz, OkHttpClient.Builder builder) {
@@ -85,11 +69,7 @@ public class RestApi {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request original = chain.request();
-                        // Request customization: add request headers
                         Request.Builder requestBuilder = original.newBuilder();
-                                /*.header("Authorization", getApiToken())
-                                .header("App-Id", "PROSPORT")
-                                .header("Client-Type", "APP");*/
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
                     }
@@ -119,6 +99,19 @@ public class RestApi {
         Call<Users> loginUser(
                 @Field("password") String password,
                 @Field("email") String email
+        );
+
+        @FormUrlEncoded
+        @POST("ForgetPassword.php")
+        Call<Users> ForgetPassword(
+                @Field("email") String email
+        );
+
+        @FormUrlEncoded
+        @POST("ResetPassword.php")
+        Call<Users> ResetPassword(
+                @Field("email") String email,
+                @Field("password") String password
         );
 
         @GET("RegulationRetrival.php")

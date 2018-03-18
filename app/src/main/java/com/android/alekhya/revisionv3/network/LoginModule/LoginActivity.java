@@ -1,9 +1,5 @@
 package com.android.alekhya.revisionv3.network.LoginModule;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -24,7 +20,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,17 +27,17 @@ import android.widget.TextView;
 
 import com.android.alekhya.revisionv3.ActivityMain;
 import com.android.alekhya.revisionv3.R;
-import com.android.alekhya.revisionv3.network.Adapters.SpinnerSemAdapter;
-import com.android.alekhya.revisionv3.network.PojoClasses.Sems;
 import com.android.alekhya.revisionv3.network.PojoClasses.Users;
 import com.android.alekhya.revisionv3.network.RestApi;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class LoginActivity extends Fragment implements OnClickListener {
     private static View view;
-
     private static EditText emailid, password;
     private static Button loginButton;
     private static TextView forgotPassword, signUp;
@@ -50,9 +45,7 @@ public class LoginActivity extends Fragment implements OnClickListener {
     private static LinearLayout loginLayout;
     private static Animation shakeAnimation;
     private static FragmentManager fragmentManager;
-
     public LoginActivity() {
-
     }
 
     @Override
@@ -64,73 +57,53 @@ public class LoginActivity extends Fragment implements OnClickListener {
         setListeners();
         return view;
     }
-
     // Initiate Views
     private void initViews() {
         fragmentManager = getActivity().getSupportFragmentManager();
-
-        emailid = (EditText) view.findViewById(R.id.login_emailid);
-        password = (EditText) view.findViewById(R.id.login_password);
-        loginButton = (Button) view.findViewById(R.id.loginBtn);
-        forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
-        signUp = (TextView) view.findViewById(R.id.createAccount);
-        show_hide_password = (CheckBox) view
+        emailid = view.findViewById(R.id.login_emailid);
+        password = view.findViewById(R.id.login_password);
+        loginButton = view.findViewById(R.id.loginBtn);
+        forgotPassword = view.findViewById(R.id.forgot_password);
+        signUp = view.findViewById(R.id.createAccount);
+        show_hide_password = view
                 .findViewById(R.id.show_hide_password);
-        loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
-
+        loginLayout = view.findViewById(R.id.login_layout);
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
-
         // Setting text selector over textviews
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
-
             forgotPassword.setTextColor(csl);
             show_hide_password.setTextColor(csl);
             signUp.setTextColor(csl);
         } catch (Exception e) {
         }
     }
-
     // Set Listeners
     private void setListeners() {
         loginButton.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
         signUp.setOnClickListener(this);
-
-        // Set check listener over checkbox for showing and hiding password
         show_hide_password
                 .setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
                     @Override
                     public void onCheckedChanged(CompoundButton button,
                                                  boolean isChecked) {
-
-                        // If it is checkec then show password else hide
-                        // password
                         if (isChecked) {
-
                             show_hide_password.setText(R.string.hide_pwd);// change
-                            // checkbox
-                            // text
-
                             password.setInputType(InputType.TYPE_CLASS_TEXT);
                             password.setTransformationMethod(HideReturnsTransformationMethod
                                     .getInstance());// show password
                         } else {
                             show_hide_password.setText(R.string.show_pwd);// change
-                            // checkbox
-                            // text
-
                             password.setInputType(InputType.TYPE_CLASS_TEXT
                                     | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             password.setTransformationMethod(PasswordTransformationMethod
                                     .getInstance());// hide password
-
                         }
-
                     }
                 });
     }
@@ -141,10 +114,7 @@ public class LoginActivity extends Fragment implements OnClickListener {
             case R.id.loginBtn:
                 checkValidation();
                 break;
-
             case R.id.forgot_password:
-
-                // Replace forgot password fragment with animation
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
@@ -153,8 +123,6 @@ public class LoginActivity extends Fragment implements OnClickListener {
                                 Utils.ForgotPassword_Fragment).commit();
                 break;
             case R.id.createAccount:
-
-                // Replace signup frgament with animation
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
@@ -162,33 +130,21 @@ public class LoginActivity extends Fragment implements OnClickListener {
                                 Utils.SignUp_Fragment).commit();
                 break;
         }
-
     }
-
-    // Check Validation before login
     private void checkValidation() {
-        // Get email id and password
         String getEmailId = emailid.getText().toString();
         String getPassword = password.getText().toString();
-
-        // Check patter for email id
         Pattern p = Pattern.compile(Utils.regEx);
-
         Matcher m = p.matcher(getEmailId);
-
-        // Check for both field is empty or not
         if (getEmailId.equals("") || getEmailId.length() == 0
                 || getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
             new CustomToast().Show_Toast(getActivity(), view,
                     "Enter both credentials.");
-
         }
-        // Check if email id is valid or not
         else if (!m.find())
             new CustomToast().Show_Toast(getActivity(), view,
                     "Your Email Id is Invalid.");
-            // Else do login and do your stuff
         else {
             Call<Users> res = RestApi.get().getRestService().loginUser(getPassword,getEmailId);
             res.enqueue(new Callback<Users>() {
@@ -196,6 +152,7 @@ public class LoginActivity extends Fragment implements OnClickListener {
                 public void onResponse(Call<Users> call, retrofit2.Response<Users> response) {
                     int i =response.body().getStatus();
                     if ( i == 1) {
+//                    boolean check = new SessionCheck().checkActivity();
                         Intent intent = new Intent(view.getContext(), ActivityMain.class);
                         startActivity(intent);
                     } else {

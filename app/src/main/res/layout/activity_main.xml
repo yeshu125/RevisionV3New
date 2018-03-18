@@ -10,10 +10,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="#183ac2"
         android:text="REVISION"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:background="#183ac2"/>
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnlogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/header"
+        android:background="@drawable/shutdown"
+        android:ellipsize="none"
+        android:onClick="logout"
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
 
     <Spinner
         android:id="@+id/regulation"
@@ -27,64 +39,64 @@
     android:id="@+id/course"
     android:layout_width="280dp"
     android:layout_height="40dp"
-      android:layout_marginEnd="50dp"
+        android:layout_below="@+id/regulation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="50dp"
     android:layout_marginStart="50dp"
     android:layout_marginTop="30dp"
-    android:background="#ffffff"
-    android:layout_centerHorizontal="true"
-        android:layout_below="@+id/regulation"
+        android:background="#ffffff"
     ></Spinner>
     <Spinner
         android:id="@+id/year"
         android:layout_width="280dp"
         android:layout_height="40dp"
+        android:layout_below="@+id/course"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:background="#ffffff"
-        android:layout_below="@+id/course"
-        android:layout_centerHorizontal="true"
         ></Spinner>
     <Spinner
         android:id="@+id/sem"
         android:layout_width="280dp"
         android:layout_height="40dp"
+        android:layout_below="@+id/year"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/year"
         android:background="#ffffff"
-        android:layout_centerHorizontal="true"
         ></Spinner>
     <Spinner
         android:id="@+id/subject"
         android:layout_width="280dp"
         android:layout_height="40dp"
+        android:layout_below="@+id/sem"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:background="#ffffff"
-        android:layout_below="@+id/sem"
-        android:layout_centerHorizontal="true"
         ></Spinner>
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="submit"
         android:layout_below="@+id/subject"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:text="submit" />
     <!-- Footer aligned to bottom -->
     <TextView
         android:id="@+id/footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="All CopyRights Reserved"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_alignParentBottom="true"
        />
     <Button
         android:id="@+id/view"
