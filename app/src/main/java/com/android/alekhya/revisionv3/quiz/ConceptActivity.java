@@ -57,6 +57,7 @@ public class ConceptActivity extends AppCompatActivity
         //Initialize the view
         init();
         Call<QuizQuestion> Questions = RestApi.get().getRestService().getQuestions(BaseApplication.subjectId);
+
         Questions.enqueue(new Callback<QuizQuestion>() {
             @Override
             public void onResponse(Call<QuizQuestion> call, retrofit2.Response<QuizQuestion> response) {

@@ -45,15 +45,26 @@ public class RestApi {
         }
         return instance;
     }
+
     public static void init(Context context) {
         sp = context.getSharedPreferences("GSS", Context.MODE_PRIVATE);
     }
+
     public RestService getRestService() {
         if (sp == null) {
             throw new IllegalStateException("init method should be called first.");
         }
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         return buildAdapter(BASE_URL, RestService.class, builder);
+    }
+
+    private String getApiToken() {
+        //TODO: Need to confirm on Basic or Bearer ?
+        final String credentials = "Basic " + sp.getString("apiToken", "");
+        //Log.e("apiToken",credentials);
+        //final String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        //return base64EncodedCredentials;
+        return credentials;
     }
 
     private <T> T buildAdapter(String baseUrl, Class<T> clazz, OkHttpClient.Builder builder) {
@@ -69,7 +80,11 @@ public class RestApi {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request original = chain.request();
+                        // Request customization: add request headers
                         Request.Builder requestBuilder = original.newBuilder();
+                                /*.header("Authorization", getApiToken())
+                                .header("App-Id", "PROSPORT")
+                                .header("Client-Type", "APP");*/
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
                     }
@@ -82,7 +97,6 @@ public class RestApi {
                 .build();
         return retrofit.create(clazz);
     }
-
     public interface RestService {
         @FormUrlEncoded
         @POST("RegisterUser.php")
@@ -141,7 +155,6 @@ public class RestApi {
                                    @Field("course") String course,
                                    @Field("year") String year,
                                    @Field("sem") String sem
-
         );
 
         @FormUrlEncoded
